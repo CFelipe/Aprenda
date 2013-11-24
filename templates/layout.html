@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Aprenda</title>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type='text/css'>
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' type='text/css'>
+    </head>
+    
+    <body>
+        {% block body %}
+            {% for atleta in atletas %}
+                <i>{{ atleta[0] }}</i>
+                <h2>{{ atleta[1] }}</h2>
+            {% endfor %}
+        {% endblock %}
+    </body>
+</html>

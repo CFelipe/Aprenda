@@ -1,0 +1,113 @@
+* {
+    -moz-transition: padding .3s;
+    -webkit-transition: padding .3s;
+    -o-transition: padding .3s;
+    transform: padding .3s;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    background-image: url(img/brilliant.png);
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, p, blockquote, th, td {
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    direction: ltr;
+    letter-spacing: 1px;
+}
+
+input, textarea {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.2em !important;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.headerbar {
+    width: 100%;
+    background-color: #00A8C6;
+}
+
+.headerbar .header {
+    padding: 10px;
+    color: #FFF;
+    font-size: 2em;
+    text-transform: uppercase;
+}
+
+.topico {
+    text-align: center;
+    font-weight: 300;
+    padding: 35px 10px;
+    font-size: 3em;
+}
+
+.tableheader {
+    position: relative;
+    font-size: 1.5em;
+    border-bottom: 2px solid #00A8C6;
+}
+
+.tablecontent {
+    margin-top: 10px;
+}
+
+.listitem:first-child {
+    padding-top: 0;
+}
+
+.listitem {
+    list-style-type: none;
+    font-family: 'Lato', sans-serif;
+    padding: 3px 0;
+    border-bottom: 1px solid lightgray;
+    width: 100%;
+}
+
+.subtext {
+    font-size: 12px;
+    color: gray;
+}
+
+.griditem {
+    margin-bottom: 15px;
+}
+
+.tablefloatright {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-right: 5px;
+    text-align: right;
+}
+
+.formhelper {
+    
+}
+
+.helpitem {
+    font-size: 1.2em;
+    border-bottom: 2px solid lightgray;
+    margin-bottom: 10px;
+}
+
+.helpcontent {
+    
+}
+
+@media only screen and (max-width: 768px) {
+    .topico {
+        padding: 15px;
+    }
+    .l-box {
+        padding-right: 0;
+    }
+    .conteudo {
+        margin: 15px auto;
+    }
+}

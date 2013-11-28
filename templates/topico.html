@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="topico">{{ topico['titulo'] }}</div>
+<div class="container">
+    <div class="row">
+        <div class="griditem col-md-4">
+            <div class="tableheader">
+                Descrição
+                <span class="tablefloatright">
+                    <a class="addbtn" href="#" rel="tooltip" data-placement="left" title="Adicionar">+</a>
+                </span>
+            </div>
+            <div class="tablecontent">
+                Ainda não
+            </div>
+        </div>
+        <div class="griditem col-md-4">
+            <div class="tableheader">
+                Subtópicos
+                <span class="tablefloatright">
+                    <a class="addbtn" href="#" rel="tooltip" data-placement="left" title="Adicionar">+</a>
+                </span>
+            </div>
+            <div class="tablecontent">
+                <div class="tablelist">
+                    <ul>
+                        {% for subtopico in topico['subtopicos'] %}
+                            <li>
+                                <a href="{{ url_for('topico', topicoid=subtopico['st_id']) }}">{{ subtopico['st_titulo'] }}</a>
+                            </li>
+                        {% else %}
+			    <li>Nenhum</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="griditem col-md-4">
+            <div class="tableheader">
+                Supertópicos
+                <span class="tablefloatright">
+                    <a class="addbtn" href="#" rel="tooltip" data-placement="left" title="Adicionar">+</a>
+                </span>
+            </div>
+            <div class="tablecontent">
+                <div class="tablelist">
+                    <ul>
+                        {% for supertopico in topico['supertopicos'] %}
+                            <li>
+                                <a href="{{ url_for('topico', topicoid=supertopico['st_id']) }}">{{ supertopico['st_titulo'] }}</a>
+                            </li>
+                        {% else %}
+			    <li>Nenhum</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="griditem col-md-4">
+            <div class="tableheader">
+                Livros
+                <span class="tablefloatright">
+                    <a href="#" rel="tooltip" data-placement="left" title="Adicionar">+</a>
+                </span>
+            </div>
+            <div class="tablecontent">
+                <div class="tablelist">
+                    <ul>
+                        {% for livro in topico['livros'] %}
+                            <li>
+                                <a href="#">{{ livro['titulo'] }}</a>
+                                <span class="subtext">{{ livro['autorstring'] }}</span>
+                            </li>
+                        {% else %}
+			    <li>Nenhum</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="griditem col-md-4">
+            <div class="tableheader">
+                Links
+                <span class="tablefloatright">
+                    <a href="#" rel="tooltip" data-placement="left" title="Adicionar">+</a>
+                </span>
+            </div>
+            <div class="tablecontent">
+                <div class="tablelist">
+                    <ul>
+                            {% for link in topico['links'] %}
+                            <li>
+                                <a href="{{ link['url'] }}">{{ link['titulo'] }}</a>
+                            </li>
+                        {% else %}
+			    <li>Nenhum</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="griditem col-md-4">
+            <div class="tableheader">
+                Vídeos
+                <span class="tablefloatright">
+                    <a href="#" rel="tooltip" data-placement="left" title="Adicionar">+</a>
+                </span>
+            </div>
+            <div class="tablecontent">
+                <div class="tablelist">
+                    <div class="listitem">
+                        <ul>
+                            <li>
+                                Depois
+                            </li>
+                    </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

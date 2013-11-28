@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type='text/css'>
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' type='text/css'>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+        <title>{% block title %}Aprenda{% endblock %}</title>
+    </head>
+    
+    <body>
+        <div class="headerbar">
+            <div class="container">
+                <header class="headertitle"><a href="{{ url_for('index') }}">Aprenda</a></header>
+                <nav class="headernav">
+                    <ul>
+                        <li><a href="#">Login</a></li>
+                        <li><a href="{{ url_for('index') }}">Tópicos</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        
+        {% block content %}
+        {% endblock %}
+        
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js.js') }}"></script>
+    </body>
+</html>

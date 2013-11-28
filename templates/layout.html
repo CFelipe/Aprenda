@@ -9,9 +9,16 @@
     
     <body>
         {% block body %}
-            {% for atleta in atletas %}
-                <i>{{ atleta[0] }}</i>
-                <h2>{{ atleta[1] }}</h2>
+            {% for topico in topicos %}
+                <i>{{ topico['id'] }}</i>
+                <h2>{{ topico['titulo'] }}</h2>
+            {% endfor %}
+        {% endblock %}
+        <h1>---</h1>
+        {% block livros %}
+            {% for livro in livros %}
+                <i>{{ livro['isbn'] }}</i>
+                <h2>{{ livro['criador'] }}</h2>
             {% endfor %}
         {% endblock %}
     </body>

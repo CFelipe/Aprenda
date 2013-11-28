@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="topico">Tópicos</div>
+<div class="container">
+    <div class="row">
+        <div class="griditem col-md-12">
+            <div class="tableheader">
+                Lista
+                <span class="tablefloatright">
+                    <a class="addbtn" href="#" rel="tooltip" data-placement="left" title="Adicionar">+</a>
+                </span>
+            </div>
+            <div class="tablecontent">
+		<div class="tablelist">
+		    <ul>
+			{% for topico in topicos %}
+			    <li>
+				<a href="{{ url_for('topico', topicoid=topico['id']) }}">{{ topico['titulo'] }}</a>
+			    </li>
+                        {% else %}
+			    <li>Nenhum</li>
+                        {% endfor %}
+		    </ul>
+		</div>
+            </div>
+	</div>
+    </div>
+</div>
+{% endblock %}

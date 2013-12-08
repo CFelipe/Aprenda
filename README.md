@@ -15,12 +15,11 @@ This assumes you have Python 2.7.x and pip installed.
 ### Mac OS X
 Tested on Mac OS X 10.9 using [homebrew](http://brew.sh/)
 
-Clone the repository
+Clone the repository and setup the database stuff
 
     $ git clone https://github.com/CFelipe/Aprenda.git
     $ brew install postgresql
     $ createdb aprenda
-    $ # cd to the directory in which you cloned the repository
     $ psql aprenda
     $ \i aprenda.sql
     $ \q

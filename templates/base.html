@@ -7,25 +7,36 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
         <title>{% block title %}Aprenda{% endblock %}</title>
     </head>
-    
+
     <body>
         <div class="headerbar">
             <div class="container">
                 <header class="headertitle"><a href="{{ url_for('index') }}">Aprenda</a></header>
                 <nav class="headernav">
                     <ul>
-                        <li><a href="#">Login</a></li>
+                        {% if g.usuario %}
+                            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                            <li><a href="#">Perfil</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('logreg')
+                                }}">Login / Registro</a></li>
+                        {% endif %}
                         <li><a href="{{ url_for('index') }}">Tópicos</a></li>
                     </ul>
                 </nav>
             </div>
         </div>
-        
+
+        <div class="pagtitulo">{% block pagtitulo %}{% endblock %}</div>
+
         {% block content %}
         {% endblock %}
-        
-    <script src="https://code.jquery.com/jquery.js"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js.js') }}"></script>
+
+        <script type=text/javascript>
+          var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        </script>
+        <script src="{{ url_for('static', filename='js/jquery-1.10.1.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js.js') }}"></script>
     </body>
 </html>

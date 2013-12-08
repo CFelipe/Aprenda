@@ -7,8 +7,8 @@ CREATE TYPE tipo AS ENUM ('video', 'link', 'livro');
 DROP TABLE IF EXISTS aprenda.usuario CASCADE;
 CREATE TABLE aprenda.usuario (
     id SERIAL PRIMARY KEY,
-    nome_usuario VARCHAR(70) NOT NULL,
-    email TEXT NOT NULL,
+    nome_usuario VARCHAR(70) UNIQUE NOT NULL,
+    email TEXT UNIQUE NOT NULL,
     senha VARCHAR(32) NOT NULL,
     sexo CHAR,
     dt_nascimento DATE
@@ -108,18 +108,18 @@ INSERT INTO aprenda.usuario (nome_usuario, email, senha, sexo, dt_nascimento) VA
     ('Felipe', 'felipecortezfi@gmail.com', '849d2fdca1ee9d6d6b7239fedbd19305', 'M', '1995-07-21');
 ---
 INSERT INTO aprenda.topico (titulo) VALUES
-    ('Ciência da Computação'),	-- 1
-    ('Teoria dos Grafos'),	-- 2
-    ('Banco de Dados'),		-- 3
-    ('Matemática Aplicada'),	-- 4
-    ('Música'),			-- 5
-    ('História da Música'),	-- 6
-    ('Programação'),		-- 7
-    ('Desenvolvimento Web'),	-- 8
-    ('Python'),			-- 9
-    ('Flask'),			-- 10
-    ('Ruby'),			-- 11
-    ('Ruby on Rails');		-- 12
+    ('Ciência da Computação'),  -- 1
+    ('Teoria dos Grafos'),      -- 2
+    ('Banco de Dados'),         -- 3
+    ('Matemática Aplicada'),    -- 4
+    ('Música'),                 -- 5
+    ('História da Música'),     -- 6
+    ('Programação'),            -- 7
+    ('Desenvolvimento Web'),    -- 8
+    ('Python'),                 -- 9
+    ('Flask'),                  -- 10
+    ('Ruby'),                   -- 11
+    ('Ruby on Rails');          -- 12
 ---
 INSERT INTO aprenda.subtopico (topico_id, subtopico_id) VALUES
     (1, 3),

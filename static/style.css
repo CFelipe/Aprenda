@@ -88,7 +88,7 @@ textarea {
     box-shadow: inset 0 3px 30px rgba(0, 0, 0, 0.125);
 }
 
-.topico {
+.pagtitulo {
     text-align: center;
     font-weight: 300;
     padding: 35px 10px;
@@ -153,18 +153,18 @@ textarea {
     color: #00A8C6;
 }
 
-.formhelper {
-    display: none; # por enquanto
-}
-
-.helpitem {
-    font-size: 1.2em;
-    border-bottom: 2px solid lightgray;
-    margin-bottom: 10px;
-}
-
-.helpcontent {
-    
+.ou {
+    position: relative;
+    background-color: #00A8C6;
+    font-weight: 300;
+    font-size: 2em;
+    text-transform: uppercase;
+    color: white;
+    margin: 30px auto;
+    padding: 17px 16px;
+    width: 75px;
+    height: 75px;
+    border-radius: 50px;
 }
 
 @media only screen and (max-width: 768px) {

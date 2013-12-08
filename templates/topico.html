@@ -1,6 +1,9 @@
 {% extends "base.html" %}
+
+{% block pagtitulo %}{{ topico['titulo'] }}{% endblock %}
+
 {% block content %}
-<div class="topico">{{ topico['titulo'] }}</div>
+
 <div class="container">
     <div class="row">
         <div class="griditem col-md-4">
@@ -29,7 +32,7 @@
                                 <a href="{{ url_for('topico', topicoid=subtopico['st_id']) }}">{{ subtopico['st_titulo'] }}</a>
                             </li>
                         {% else %}
-			    <li>Nenhum</li>
+                            <li>Nenhum</li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -50,7 +53,7 @@
                                 <a href="{{ url_for('topico', topicoid=supertopico['st_id']) }}">{{ supertopico['st_titulo'] }}</a>
                             </li>
                         {% else %}
-			    <li>Nenhum</li>
+                            <li>Nenhum</li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -74,13 +77,13 @@
                                 <span class="subtext">{{ livro['autorstring'] }}</span>
                             </li>
                         {% else %}
-			    <li>Nenhum</li>
+                            <li>Nenhum</li>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
         </div>
-        
+
         <div class="griditem col-md-4">
             <div class="tableheader">
                 Links
@@ -96,13 +99,13 @@
                                 <a href="{{ link['url'] }}">{{ link['titulo'] }}</a>
                             </li>
                         {% else %}
-			    <li>Nenhum</li>
+                            <li>Nenhum</li>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
         </div>
-        
+
         <div class="griditem col-md-4">
             <div class="tableheader">
                 Vídeos

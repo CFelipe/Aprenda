@@ -1,6 +1,8 @@
 {% extends "base.html" %}
+
+{% block pagtitulo %}Tópicos{% endblock %}
+
 {% block content %}
-<div class="topico">Tópicos</div>
 <div class="container">
     <div class="row">
         <div class="griditem col-md-12">
@@ -11,19 +13,19 @@
                 </span>
             </div>
             <div class="tablecontent">
-		<div class="tablelist">
-		    <ul>
-			{% for topico in topicos %}
-			    <li>
-				<a href="{{ url_for('topico', topicoid=topico['id']) }}">{{ topico['titulo'] }}</a>
-			    </li>
+                <div class="tablelist">
+                    <ul>
+                        {% for topico in topicos %}
+                            <li>
+                                <a href="{{ url_for('topico', topicoid=topico['id']) }}">{{ topico['titulo'] }}</a>
+                            </li>
                         {% else %}
-			    <li>Nenhum</li>
+                            <li>Nenhum</li>
                         {% endfor %}
-		    </ul>
-		</div>
+                    </ul>
+                </div>
             </div>
-	</div>
+        </div>
     </div>
 </div>
 {% endblock %}

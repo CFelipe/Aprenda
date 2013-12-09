@@ -1,23 +1,30 @@
 jQuery(function ($) {
-    $('[rel=tooltip]').tooltip() 
+    $('[rel=tooltip]').tooltip()
 });
 
-$( "#linkf" ).focus(function() {
-    $(".helpcontent").text("Olá mundo")
-});
+regusuario = $("#registroform input[name='nomeusuario']");
+regemail = $("#registroform input[name='email']");
 
-$("#loginform").submit(function(e) {
-    $.ajax({
-        type: "POST",
-        url: "/login",
-        data: { name: "John", location: "Boston" }
-    })
-    .done(function( msg ) {
-        alert( "Data Saved: " + msg );
-    });
-    $.getJSON($SCRIPT_ROOT + '/login', {
-        username: $('input[name="username"]').val()
+regusuario.blur(function(e) {
+    $.getJSON($SCRIPT_ROOT + '/_proc_usuario', {
+        nomeusuario: regusuario.val()
     }, function(data) {
-        alert(data.result)
+        if(!data['nomeusuario']) {
+            regusuario.parent().addClass("has-error")
+        } else {
+            regusuario.parent().removeClass("has-error")
+        }
+    });
+});
+
+regemail.blur(function(e) {
+    $.getJSON($SCRIPT_ROOT + '/_proc_usuario', {
+        email: regemail.val()
+    }, function(data) {
+        if(!data['email']) {
+            regemail.parent().addClass("has-error")
+        } else {
+            regemail.parent().removeClass("has-error")
+        }
     });
 });

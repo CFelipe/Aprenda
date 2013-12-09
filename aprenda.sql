@@ -7,12 +7,15 @@ CREATE TYPE tipo AS ENUM ('video', 'link', 'livro');
 DROP TABLE IF EXISTS aprenda.usuario CASCADE;
 CREATE TABLE aprenda.usuario (
     id SERIAL PRIMARY KEY,
-    nome_usuario VARCHAR(70) UNIQUE NOT NULL,
+    nome_usuario VARCHAR(20) UNIQUE NOT NULL,
     email TEXT UNIQUE NOT NULL,
     senha VARCHAR(32) NOT NULL,
     sexo CHAR,
     dt_nascimento DATE
 );
+
+DROP INDEX IF EXITS nomeusuario_min;
+CREATE INDEX users_lower_email ON aprenda.usuario(lower(nome_usuario));
 
 DROP TABLE IF EXISTS aprenda.topico CASCADE;
 CREATE TABLE aprenda.topico (
@@ -130,10 +133,12 @@ INSERT INTO aprenda.subtopico (topico_id, subtopico_id) VALUES
     (5, 6);
 ---
 INSERT INTO aprenda.link (titulo, url) VALUES
-    ('Teoria dos grafos (Wikipedia)', 'https://pt.wikipedia.org/wiki/Teoria_dos_grafos');
+    ('Teoria dos grafos (Wikipedia)', 'https://pt.wikipedia.org/wiki/Teoria_dos_grafos'),
+    ('Primers', 'http://jeremykun.com/primers/');
 ---
 INSERT INTO aprenda.linktopico (link_id, topico_id, criador_id) VALUES
-    (1, 1, 1);
+    (1, 1, 1),
+    (1, 2, 1);
 ---
 INSERT INTO aprenda.video (url) VALUES
     ('https://www.youtube.com/watch?v=k6U-i4gXkLM'),    -- MIT Introduction to Computer Science

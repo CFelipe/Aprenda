@@ -13,17 +13,36 @@
                 </span>
             </div>
             <div class="tablecontent">
-                <div class="tablelist">
-                    <ul>
+                <table class="table table-condensed tablelist">
+                    <thead>
+                        <tr>
+                            <th>Tópico</th>
+                            <th style="width:10%">Subtópicos</th>
+                            <th style="width:10%">Supertópicos</th>
+                            <th style="width:10%">Links</th>
+                            <th style="width:10%">Vídeos</th>
+                            <th style="width:10%">Livros</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {% for topico in topicos %}
-                            <li>
-                                <a href="{{ url_for('topico', topicoid=topico['id']) }}">{{ topico['titulo'] }}</a>
-                            </li>
+                            <tr>
+                                <td>
+                                    <a href="{{ url_for('topico', topicoid=topico['id']) }}">
+                                        {{ topico['titulo'] }}
+                                    </a>
+                                </td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
                         {% else %}
                             <li>Nenhum</li>
                         {% endfor %}
-                    </ul>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

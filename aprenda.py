@@ -2,11 +2,15 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, render_template, request, session, redirect, url_for, \
-    g, flash
+    g, flash, jsonify
+from datetime import datetime
 import db, hashlib
 
 app = Flask(__name__)
 app.secret_key = '\xdb\xa5{\xa1\xa6\x7f\xe6\x9c\xc6\xa0\x8e=]\x9a\x0c\x97 >\xaf\xe9\xa9\tyk'
+
+def entre(menor, maior, string):
+    return len(string) >= menor and len(string) <= maior
 
 def check_password_hash(senhaform, senhabd):
     m = hashlib.md5()
@@ -18,9 +22,15 @@ def check_password_hash(senhaform, senhabd):
 def before_request():
     g.usuario = None
     if 'nomeusuario' in session:
-        print "Ta na sessuam"
         g.usuario = db.get_usuario(session['nomeusuario'])
 
+# REST --------------------
+
+@app.route('/_proc_usuario')
+def procurar_usuario():
+    usuario = db.validar_usuario(request.args.get('nomeusuario', ''),
+                                 request.args.get('email', ''))
+    return jsonify(usuario)
 
 @app.route('/')
 def index():
@@ -44,16 +54,21 @@ def link(linkid):
 @app.route('/logreg', methods=['GET', 'POST'])
 def logreg():
     if g.usuario:
-        return redirect(url_for('/'))
+        return redirect(url_for('index'))
     error = None
     if request.method == 'POST':
         if request.form['btn'] == 'reg':
+            nomeusuario = request.form['nomeusuario']
+            email = request.form['email']
+            sexo = request.form['sexoradio']
+
+            erros = []
             valido = db.validar_usuario(request.form['nomeusuario'],
                     request.form['email'])
-            if valido:
-                print "Aee"
-            else:
-                print "Ahh"
+            if not valido['nomeusuario'] or not entre(2, 20, nomeusuario):
+                erros.append('Nome de usuário inválido')
+            if not valido['email'] or not entre(3, 1024, email):
+                erros.append('Email inválido')
         elif request.form['btn'] == 'log':
             usuario = db.get_usuario(request.form['nomeusuario'])
             if usuario == None:

@@ -24,16 +24,22 @@ def get_usuario(nomeusuario):
     return usuario
 
 def validar_usuario(nomeusuario, emailusuario):
+    valido = {}
     conn = connect()
     cur = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
     cur.execute('''
-                SELECT * FROM aprenda.usuario WHERE nome_usuario = %s OR
-                email = %s
-                ''', [nomeusuario, emailusuario])
-    usuario = cur.fetchone()
+                SELECT * FROM aprenda.usuario WHERE nome_usuario = %s
+                ''', [nomeusuario])
+    u_nome = cur.fetchone()
+    valido['nomeusuario'] = not u_nome
+    cur.execute('''
+                SELECT * FROM aprenda.usuario WHERE email = %s
+                ''', [emailusuario])
+    u_email = cur.fetchone()
+    valido['email'] = not u_email
     cur.close()
     conn.close()
-    return not usuario
+    return valido
 
 def get_topicos():
     conn = connect()

@@ -109,19 +109,20 @@ textarea {
     margin-top: -3px;
 }
 
-.tablelist li {
-    list-style-type: none;
-    font-family: 'Lato', sans-serif;
-    padding: 3px 0;
-    border-bottom: 1px solid lightgray;
-    width: 100%;
+.tablelist li, .tablelist tr {
     -moz-transition: background-color .3s, padding-left .1s;
     -webkit-transition: background-color .3s, padding-left .1s;
     -o-transition: background-color .3s, padding-left .1s;
     transform: background-color .3s, padding-left .1s;
 }
 
-.tablelist li:hover {
+.tablelist li, .tablelist td {
+    list-style-type: none;
+    padding: 3px 0;
+    border-bottom: 1px solid lightgray;
+}
+
+.tablelist li:hover, .tablelist tr:hover {
     background-color: rgba(230, 230, 230, .3);
     padding-left: 5px;
 }

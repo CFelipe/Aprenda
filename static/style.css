@@ -143,15 +143,19 @@ textarea {
 
 .tablefloatright {
     position: absolute;
-    top: 0;
+    top: 1px;
     right: 0;
     padding-right: 5px;
     text-align: right;
 }
 
 .tablefloatright a {
-    font-size: 18px;
+    font-size: 16px;
     color: #00A8C6;
+}
+
+.alert li {
+    list-style-type: none;
 }
 
 .ou {

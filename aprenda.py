@@ -9,6 +9,8 @@ import db, hashlib
 app = Flask(__name__)
 app.secret_key = '\xdb\xa5{\xa1\xa6\x7f\xe6\x9c\xc6\xa0\x8e=]\x9a\x0c\x97 >\xaf\xe9\xa9\tyk'
 
+# Helpers -----------------
+
 def entre(menor, maior, string):
     return len(string) >= menor and len(string) <= maior
 
@@ -31,6 +33,8 @@ def procurar_usuario():
     usuario = db.validar_usuario(request.args.get('nomeusuario', ''),
                                  request.args.get('email', ''))
     return jsonify(usuario)
+
+# Pages -------------------
 
 @app.route('/')
 def index():
@@ -55,40 +59,37 @@ def link(linkid):
 def logreg():
     if g.usuario:
         return redirect(url_for('index'))
-    error = None
+    erros = []
     if request.method == 'POST':
         if request.form['btn'] == 'reg':
             nomeusuario = request.form['nomeusuario']
             email = request.form['email']
             sexo = request.form['sexoradio']
 
-            erros = []
             valido = db.validar_usuario(request.form['nomeusuario'],
                     request.form['email'])
             if not valido['nomeusuario'] or not entre(2, 20, nomeusuario):
-                erros.append('Nome de usuário inválido')
+                erros.append(u"Nome de usuário inválido")
             if not valido['email'] or not entre(3, 1024, email):
-                erros.append('Email inválido')
+                erros.append(u"Email inválido")
         elif request.form['btn'] == 'log':
             usuario = db.get_usuario(request.form['nomeusuario'])
             if usuario == None:
-                print "Usuário inválido"
-                erro = "Usuário inválido"
+                erros.append(u"Usuário inválido")
             elif not check_password_hash(request.form['password'], usuario['senha']):
-                print "Senha incorreta"
-                erro = "Senha incorreta"
+                erros.append(u"Senha incorreta")
             else:
                 session['nomeusuario'] = usuario['nome_usuario']
                 return redirect(url_for('index'))
-
-    return render_template('logreg.html', error=error)
+    return render_template('logreg.html', erros=erros)
 
 @app.route('/logout')
 def logout():
-    flash('You were logged out')
+    flash('Você foi deslogado')
     session.pop('nomeusuario', None)
     return redirect(url_for('index'))
 
+# Run ---------------------
+
 if __name__ == '__main__':
     app.run(debug=True)
-

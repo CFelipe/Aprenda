@@ -117,12 +117,10 @@ INSERT INTO aprenda.topico (titulo) VALUES
     ('Matemática Aplicada'),    -- 4
     ('Música'),                 -- 5
     ('História da Música'),     -- 6
-    ('Programação'),            -- 7
-    ('Desenvolvimento Web'),    -- 8
-    ('Python'),                 -- 9
-    ('Flask'),                  -- 10
-    ('Ruby'),                   -- 11
-    ('Ruby on Rails');          -- 12
+    ('Desenvolvimento Web'),    -- 7
+    ('Python'),                 -- 8
+    ('Flask'),                  -- 9
+    ('Ruby'),                   -- 10
 ---
 INSERT INTO aprenda.subtopico (topico_id, subtopico_id) VALUES
     (1, 3),

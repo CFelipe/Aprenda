@@ -9,9 +9,14 @@
         <div class="griditem col-md-4">
             <div class="tableheader">
                 Descrição
-                <span class="tablefloatright">
-                    <a class="addbtn" href="#" rel="tooltip" data-placement="left" title="Adicionar">+</a>
-                </span>
+                {% if g.usuario %}
+                    <span class="tablefloatright">
+                        <a class="addbtn" href="#" rel="tooltip"
+                            data-placement="top" title="Adicionar">
+                            <i class="fa fa-plus-circle"></i>
+                        </a>
+                    </span>
+                {% endif %}
             </div>
             <div class="tablecontent">
                 Ainda não
@@ -20,9 +25,14 @@
         <div class="griditem col-md-4">
             <div class="tableheader">
                 Subtópicos
-                <span class="tablefloatright">
-                    <a class="addbtn" href="#" rel="tooltip" data-placement="left" title="Adicionar">+</a>
-                </span>
+                {% if g.usuario %}
+                    <span class="tablefloatright">
+                        <a class="addbtn" href="#" rel="tooltip"
+                            data-placement="top" title="Adicionar">
+                            <i class="fa fa-plus-circle"></i>
+                        </a>
+                    </span>
+                {% endif %}
             </div>
             <div class="tablecontent">
                 <div class="tablelist">
@@ -41,9 +51,14 @@
         <div class="griditem col-md-4">
             <div class="tableheader">
                 Supertópicos
-                <span class="tablefloatright">
-                    <a class="addbtn" href="#" rel="tooltip" data-placement="left" title="Adicionar">+</a>
-                </span>
+                {% if g.usuario %}
+                    <span class="tablefloatright">
+                        <a class="addbtn" href="#" rel="tooltip"
+                            data-placement="top" title="Adicionar">
+                            <i class="fa fa-plus-circle"></i>
+                        </a>
+                    </span>
+                {% endif %}
             </div>
             <div class="tablecontent">
                 <div class="tablelist">
@@ -64,9 +79,14 @@
         <div class="griditem col-md-4">
             <div class="tableheader">
                 Livros
-                <span class="tablefloatright">
-                    <a href="#" rel="tooltip" data-placement="left" title="Adicionar">+</a>
-                </span>
+                {% if g.usuario %}
+                    <span class="tablefloatright">
+                        <a class="addbtn" href="#" rel="tooltip"
+                            data-placement="top" title="Adicionar">
+                            <i class="fa fa-plus-circle"></i>
+                        </a>
+                    </span>
+                {% endif %}
             </div>
             <div class="tablecontent">
                 <div class="tablelist">
@@ -87,9 +107,14 @@
         <div class="griditem col-md-4">
             <div class="tableheader">
                 Links
-                <span class="tablefloatright">
-                    <a href="#" rel="tooltip" data-placement="left" title="Adicionar">+</a>
-                </span>
+                {% if g.usuario %}
+                    <span class="tablefloatright">
+                        <a class="addbtn" href="#" rel="tooltip"
+                            data-placement="top" title="Adicionar">
+                            <i class="fa fa-plus-circle"></i>
+                        </a>
+                    </span>
+                {% endif %}
             </div>
             <div class="tablecontent">
                 <div class="tablelist">
@@ -109,9 +134,14 @@
         <div class="griditem col-md-4">
             <div class="tableheader">
                 Vídeos
-                <span class="tablefloatright">
-                    <a href="#" rel="tooltip" data-placement="left" title="Adicionar">+</a>
-                </span>
+                {% if g.usuario %}
+                    <span class="tablefloatright">
+                        <a class="addbtn" href="#" rel="tooltip"
+                            data-placement="top" title="Adicionar">
+                            <i class="fa fa-plus-circle"></i>
+                        </a>
+                    </span>
+                {% endif %}
             </div>
             <div class="tablecontent">
                 <div class="tablelist">

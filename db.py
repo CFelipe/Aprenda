@@ -15,7 +15,9 @@ def get_usuario(nomeusuario):
     conn = connect()
     cur = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
     cur.execute('''
-                SELECT * FROM aprenda.usuario WHERE nome_usuario = %s
+                SELECT *
+                FROM aprenda.usuario
+                WHERE lower(nome_usuario) = lower(%s)
                 ''', [nomeusuario])
     usuario = cur.fetchone()
 
@@ -28,12 +30,16 @@ def validar_usuario(nomeusuario, emailusuario):
     conn = connect()
     cur = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
     cur.execute('''
-                SELECT * FROM aprenda.usuario WHERE nome_usuario = %s
+                SELECT *
+                FROM aprenda.usuario
+                WHERE lower(nome_usuario) = lower(%s)
                 ''', [nomeusuario])
     u_nome = cur.fetchone()
     valido['nomeusuario'] = not u_nome
     cur.execute('''
-                SELECT * FROM aprenda.usuario WHERE email = %s
+                SELECT *
+                FROM aprenda.usuario
+                WHERE lower(email) = lower(%s)
                 ''', [emailusuario])
     u_email = cur.fetchone()
     valido['email'] = not u_email
@@ -45,7 +51,8 @@ def get_topicos():
     conn = connect()
     cur = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
     cur.execute('''
-                SELECT * FROM aprenda.topico
+                SELECT *
+                FROM aprenda.topico
                 ''')
     topicos = cur.fetchall()
     cur.close()
@@ -56,7 +63,9 @@ def get_topico(idtopico):
     conn = connect()
     cur = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
     cur.execute('''
-                SELECT * FROM aprenda.topico t WHERE t.id = %s
+                SELECT *
+                FROM aprenda.topico t
+                WHERE t.id = %s
                 ''', [idtopico])
     topico = cur.fetchone()
 
@@ -143,7 +152,7 @@ def get_livros_topico(idtopico):
             else:
                 print "Não há livro com o ISBN informado"
         except urllib2.URLError as e:
-            print "ih"
+            print "Erro"
 
     cur.close()
     conn.close()

@@ -14,7 +14,7 @@ CREATE TABLE aprenda.usuario (
     dt_nascimento DATE
 );
 
-DROP INDEX IF EXITS nomeusuario_min;
+DROP INDEX IF EXISTS nomeusuario_min;
 CREATE INDEX users_lower_email ON aprenda.usuario(lower(nome_usuario));
 
 DROP TABLE IF EXISTS aprenda.topico CASCADE;
@@ -107,8 +107,10 @@ CREATE TABLE aprenda.comentario (
 
 -- Populando --
 
-INSERT INTO aprenda.usuario (nome_usuario, email, senha, sexo, dt_nascimento) VALUES
-    ('Felipe', 'felipecortezfi@gmail.com', '849d2fdca1ee9d6d6b7239fedbd19305', 'M', '1995-07-21');
+INSERT INTO aprenda.usuario (
+    nome_usuario, email, senha, sexo, dt_nascimento) VALUES
+    ('Felipe', 'felipecortezfi@gmail.com', '849d2fdca1ee9d6d6b7239fedbd19305',
+        'M', '1995-07-21');
 ---
 INSERT INTO aprenda.topico (titulo) VALUES
     ('Ciência da Computação'),  -- 1
@@ -120,7 +122,7 @@ INSERT INTO aprenda.topico (titulo) VALUES
     ('Desenvolvimento Web'),    -- 7
     ('Python'),                 -- 8
     ('Flask'),                  -- 9
-    ('Ruby'),                   -- 10
+    ('Ruby');                   -- 10
 ---
 INSERT INTO aprenda.subtopico (topico_id, subtopico_id) VALUES
     (1, 3),
@@ -131,18 +133,24 @@ INSERT INTO aprenda.subtopico (topico_id, subtopico_id) VALUES
     (5, 6);
 ---
 INSERT INTO aprenda.link (titulo, url) VALUES
-    ('Teoria dos grafos (Wikipedia)', 'https://pt.wikipedia.org/wiki/Teoria_dos_grafos'),
-    ('Primers', 'http://jeremykun.com/primers/');
+    ('Teoria dos grafos (Wikipedia)',
+        'https://pt.wikipedia.org/wiki/Teoria_dos_grafos'),
+    ('Primers',
+        'http://jeremykun.com/primers/');
 ---
 INSERT INTO aprenda.linktopico (link_id, topico_id, criador_id) VALUES
     (1, 1, 1),
     (1, 2, 1);
 ---
 INSERT INTO aprenda.video (url) VALUES
-    ('https://www.youtube.com/watch?v=k6U-i4gXkLM'),    -- MIT Introduction to Computer Science
-    ('https://www.youtube.com/watch?v=gCpAE4K38j0'),    -- The P versus NP problem
-    ('https://www.youtube.com/watch?v=aXFBW-MllmA'),    -- What is the point of music?
-    ('https://www.youtube.com/watch?v=HmQR8Xy9DeM');    -- Graph theory - An introduction
+    -- MIT Introduction to Computer Science
+    ('https://www.youtube.com/watch?v=k6U-i4gXkLM'),
+    -- The P versus NP problem
+    ('https://www.youtube.com/watch?v=gCpAE4K38j0'),
+    -- What is the point of music?
+    ('https://www.youtube.com/watch?v=aXFBW-MllmA'),
+    -- Graph theory - An introduction
+    ('https://www.youtube.com/watch?v=HmQR8Xy9DeM');
 ---
 INSERT INTO aprenda.videotopico (video_id, topico_id, criador_id) VALUES
     (1, 1, 1),
@@ -151,10 +159,14 @@ INSERT INTO aprenda.videotopico (video_id, topico_id, criador_id) VALUES
     (4, 2, 1);
 ---
 INSERT INTO aprenda.livro (isbn) VALUES
-    ('0262033844'),     -- Algoritmos (Cormen)
-    ('0132569035'),     -- Computer Science: An Overview
-    ('9788525031433'),  -- Música, Maestro!
-    ('0136086209');     -- Fundamentals of Database Systems
+    -- Algoritmos (Cormen)
+    ('0262033844'),
+    -- Computer Science: An Overview
+    ('0132569035'),
+    -- Música, Maestro!
+    ('9788525031433'),
+   -- Fundamentals of Database Systems
+    ('0136086209');
 ---
 INSERT INTO aprenda.livrotopico (livro_id, topico_id, criador_id) VALUES
     (1, 1, 1),

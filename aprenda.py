@@ -1,13 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from flask import Flask, render_template, request, session, redirect, url_for, \
-    g, flash, jsonify
+from flask import Flask, render_template, request, session, redirect, \
+                  url_for, g, flash, jsonify
 from datetime import datetime
-import db, hashlib
+import db
+import hashlib
 
 app = Flask(__name__)
-app.secret_key = '\xdb\xa5{\xa1\xa6\x7f\xe6\x9c\xc6\xa0\x8e=]\x9a\x0c\x97 >\xaf\xe9\xa9\tyk'
+app.secret_key = \
+    '\xdb\xa5{\xa1\xa6\x7f\xe6\x9c\xc6\xa0\x8e=]\x9a\x0c\x97 >\xaf\xe9\xa9\tyk'
 
 # Helpers -----------------
 
@@ -76,7 +78,8 @@ def logreg():
             usuario = db.get_usuario(request.form['nomeusuario'])
             if usuario == None:
                 erros.append(u"Usuário inválido")
-            elif not check_password_hash(request.form['password'], usuario['senha']):
+            elif not check_password_hash(request.form['password'],
+                    usuario['senha']):
                 erros.append(u"Senha incorreta")
             else:
                 session['nomeusuario'] = usuario['nome_usuario']

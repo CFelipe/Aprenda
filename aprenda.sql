@@ -15,13 +15,12 @@ CREATE TABLE aprenda.usuario (
 );
 
 DROP INDEX IF EXISTS nomeusuario_min;
-CREATE INDEX users_lower_email ON aprenda.usuario(lower(nome_usuario));
+CREATE INDEX nomeusuario_min ON aprenda.usuario(lower(nome_usuario));
 
 DROP TABLE IF EXISTS aprenda.topico CASCADE;
 CREATE TABLE aprenda.topico (
     id SERIAL PRIMARY KEY,
-    titulo VARCHAR(40) NOT NULL/*,
-    slug VARCHAR (40) UNIQUE NOT NULL*/
+    titulo VARCHAR(40) NOT NULL
 );
 
 DROP TABLE IF EXISTS aprenda.subtopico CASCADE;
@@ -36,7 +35,7 @@ CREATE TABLE aprenda.subtopico (
 DROP TABLE IF EXISTS aprenda.link CASCADE;
 CREATE TABLE aprenda.link (
     id SERIAL PRIMARY KEY,
-    titulo VARCHAR(40) NOT NULL,
+    titulo VARCHAR(60) NOT NULL,
     url TEXT NOT NULL
 );
 
@@ -55,7 +54,24 @@ CREATE TABLE aprenda.linktopico (
 DROP TABLE IF EXISTS aprenda.livro CASCADE;
 CREATE TABLE aprenda.livro (
     id SERIAL PRIMARY KEY,
-    isbn VARCHAR(13) NOT NULL
+    isbn VARCHAR(13) NOT NULL,
+    titulo TEXT NOT NULL,
+    subtitulo TEXT
+);
+
+DROP TABLE IF EXISTS aprenda.escritor CASCADE;
+CREATE TABLE aprenda.escritor (
+    id SERIAL PRIMARY KEY,
+    nome TEXT NOT NULL
+);
+
+DROP TABLE IF EXISTS aprenda.escritorlivro CASCADE;
+CREATE TABLE aprenda.escritorlivro (
+    livro_id SERIAL REFERENCES aprenda.livro
+        ON DELETE CASCADE,
+    escritor_id SERIAL REFERENCES aprenda.escritor
+        ON DELETE RESTRICT,
+    PRIMARY KEY (livro_id, escritor_id)
 );
 
 DROP TABLE IF EXISTS aprenda.livrotopico CASCADE;
@@ -73,6 +89,7 @@ CREATE TABLE aprenda.livrotopico (
 DROP TABLE IF EXISTS aprenda.video CASCADE;
 CREATE TABLE aprenda.video (
     id SERIAL PRIMARY KEY,
+    titulo TEXT NOT NULL,
     url TEXT NOT NULL
 );
 
@@ -118,17 +135,11 @@ INSERT INTO aprenda.topico (titulo) VALUES
     ('Banco de Dados'),         -- 3
     ('Matemática Aplicada'),    -- 4
     ('Música'),                 -- 5
-    ('História da Música'),     -- 6
-    ('Desenvolvimento Web'),    -- 7
-    ('Python'),                 -- 8
-    ('Flask'),                  -- 9
-    ('Ruby');                   -- 10
+    ('História da Música');     -- 6
 ---
 INSERT INTO aprenda.subtopico (topico_id, subtopico_id) VALUES
     (1, 3),
     (1, 2),
-    (1, 7),
-    (1, 8),
     (4, 1),
     (5, 6);
 ---
@@ -136,21 +147,32 @@ INSERT INTO aprenda.link (titulo, url) VALUES
     ('Teoria dos grafos (Wikipedia)',
         'https://pt.wikipedia.org/wiki/Teoria_dos_grafos'),
     ('Primers',
-        'http://jeremykun.com/primers/');
+        'http://jeremykun.com/primers/'),
+    ('Coursera - Introduction to Databases',
+    'https://www.coursera.org/course/db'),
+    ('Thinking Sounds',
+        'http://cobussen.com/teaching/what-is-music/'),
+    ('Music History 102',
+        'http://www.ipl.org/div/mushist/');
 ---
 INSERT INTO aprenda.linktopico (link_id, topico_id, criador_id) VALUES
     (1, 1, 1),
-    (1, 2, 1);
+    (1, 2, 1),
+    (2, 1, 1),
+    (2, 2, 1),
+    (3, 3, 1),
+    (4, 5, 1),
+    (5, 6, 1);
 ---
-INSERT INTO aprenda.video (url) VALUES
-    -- MIT Introduction to Computer Science
-    ('https://www.youtube.com/watch?v=k6U-i4gXkLM'),
-    -- The P versus NP problem
-    ('https://www.youtube.com/watch?v=gCpAE4K38j0'),
-    -- What is the point of music?
-    ('https://www.youtube.com/watch?v=aXFBW-MllmA'),
-    -- Graph theory - An introduction
-    ('https://www.youtube.com/watch?v=HmQR8Xy9DeM');
+INSERT INTO aprenda.video (titulo, url) VALUES
+    ('Introduction to Computer Science',
+        'https://www.youtube.com/watch?v=k6U-i4gXkLM'),
+    ('The P versus NP problem',
+        'https://www.youtube.com/watch?v=gCpAE4K38j0'),
+    ('What is the point of music?',
+        'https://www.youtube.com/watch?v=aXFBW-MllmA'),
+    ('Graph Theory - An introduction',
+        'https://www.youtube.com/watch?v=HmQR8Xy9DeM');
 ---
 INSERT INTO aprenda.videotopico (video_id, topico_id, criador_id) VALUES
     (1, 1, 1),
@@ -158,15 +180,25 @@ INSERT INTO aprenda.videotopico (video_id, topico_id, criador_id) VALUES
     (3, 5, 1),
     (4, 2, 1);
 ---
-INSERT INTO aprenda.livro (isbn) VALUES
-    -- Algoritmos (Cormen)
-    ('0262033844'),
-    -- Computer Science: An Overview
-    ('0132569035'),
-    -- Música, Maestro!
-    ('9788525031433'),
-   -- Fundamentals of Database Systems
-    ('0136086209');
+INSERT INTO aprenda.livro (isbn, titulo, subtitulo) VALUES
+    ('0262033844', 'Introduction to Algorithms', NULL),
+    ('0132569035', 'Computer Science', 'An Overview'),
+    ('9788525031433', 'Música, Maestro!', NULL),
+    ('0136086209', 'Fundamentals of Database Systems', NULL);
+---
+INSERT INTO aprenda.escritor (nome) VALUES
+    ('Thomas H. Cormen'),
+    ('J. Glenn Brookshear'),
+    ('Júlio Medaglia'),
+    ('Ramez Elmasri'),
+    ('Shamkant Navathe');
+---
+INSERT INTO aprenda.escritorlivro (livro_id, escritor_id) VALUES
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (4, 5);
 ---
 INSERT INTO aprenda.livrotopico (livro_id, topico_id, criador_id) VALUES
     (1, 1, 1),

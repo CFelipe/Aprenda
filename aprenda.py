@@ -6,6 +6,7 @@ from flask import Flask, render_template, request, session, redirect, \
 from datetime import datetime
 import db
 import hashlib
+import urllib2
 
 app = Flask(__name__)
 app.secret_key = \
@@ -28,13 +29,38 @@ def before_request():
     if 'nomeusuario' in session:
         g.usuario = db.get_usuario(session['nomeusuario'])
 
-# REST --------------------
+# Aprenda REST ------------
 
 @app.route('/_proc_usuario')
 def procurar_usuario():
     usuario = db.validar_usuario(request.args.get('nomeusuario', ''),
                                  request.args.get('email', ''))
     return jsonify(usuario)
+
+# External REST APIs ------
+
+def get_livro_info(isbn):
+    url = "https://www.googleapis.com/books/v1/volumes?q=isbn:%s" \
+    % livro['isbn']
+    try:
+        response = urllib2.urlopen(url);
+        try:
+            data = json.loads(response.read())
+
+            if(int(data['totalItems']) != 0):
+                if 'title' in data['items'][0]['volumeInfo']:
+                    livro['titulo'] = data['items'][0]['volumeInfo']['title']
+                if 'subtitle' in data['items'][0]['volumeInfo']:
+                    livro['subtitulo'] = data['items'][0]['volumeInfo']['subtitle']
+                if 'authors' in data['items'][0]['volumeInfo']:
+                    livro['autores'] = data['items'][0]['volumeInfo']['authors']
+                if 'description' in data['items'][0]['volumeInfo']:
+                    livro['desc'] = data['items'][0]['volumeInfo']['description']
+                return jsonify(usuario)
+        except ValueError:
+            livro['titulo'] = livro['isbn']
+    except urllib2.URLError:
+        livro['titulo'] = livro['isbn']
 
 # Pages -------------------
 
@@ -62,6 +88,7 @@ def logreg():
     if g.usuario:
         return redirect(url_for('index'))
     erros = []
+    loginfo = {}
     if request.method == 'POST':
         if request.form['btn'] == 'reg':
             nomeusuario = request.form['nomeusuario']
@@ -75,16 +102,19 @@ def logreg():
             if not valido['email'] or not entre(3, 1024, email):
                 erros.append(u"Email inválido")
         elif request.form['btn'] == 'log':
-            usuario = db.get_usuario(request.form['nomeusuario'])
+            nomeusuario = request.form['nomeusuario']
+            senha = request.form['password']
+
+            usuario = db.get_usuario(nomeusuario)
             if usuario == None:
                 erros.append(u"Usuário inválido")
-            elif not check_password_hash(request.form['password'],
-                    usuario['senha']):
+            elif not check_password_hash(senha, usuario['senha']):
                 erros.append(u"Senha incorreta")
+                loginfo['nomeusuario'] = nomeusuario
             else:
                 session['nomeusuario'] = usuario['nome_usuario']
                 return redirect(url_for('index'))
-    return render_template('logreg.html', erros=erros)
+    return render_template('logreg.html', erros=erros, loginfo=loginfo)
 
 @app.route('/logout')
 def logout():

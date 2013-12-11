@@ -1,7 +1,10 @@
  #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import psycopg2, psycopg2.extras, json, urllib2
+import psycopg2
+import psycopg2.extras
+import json
+import urllib2
 
 psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
 psycopg2.extensions.register_type(psycopg2.extensions.UNICODEARRAY)
@@ -130,8 +133,10 @@ def get_livros_topico(idtopico):
     cur = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
     cur.execute('''
                 SELECT t.titulo AS topico, l.isbn, u.nome_usuario AS criador
-                FROM aprenda.topico t, aprenda.livro l, aprenda.livrotopico lt, aprenda.usuario u
-                WHERE lt.livro_id = l.id AND lt.topico_id = t.id AND lt.criador_id = u.id AND t.id = %s;
+                FROM aprenda.topico t, aprenda.livro l, aprenda.livrotopico lt,
+                aprenda.usuario u
+                WHERE lt.livro_id = l.id AND lt.topico_id = t.id 
+                AND lt.criador_id = u.id AND t.id = %s;
                 ''', [idtopico])
     livros = cur.fetchall()
 

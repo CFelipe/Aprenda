@@ -65,12 +65,17 @@ def get_topicos():
 def get_topico(idtopico):
     conn = connect()
     cur = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
+
+    # Tópico ------------------
+
     cur.execute('''
                 SELECT *
                 FROM aprenda.topico t
                 WHERE t.id = %s
                 ''', [idtopico])
     topico = cur.fetchone()
+
+    # Subtópicos --------------
 
     cur.execute('''
                 SELECT st.subtopico_id AS st_id, t.titulo AS st_titulo
@@ -79,6 +84,8 @@ def get_topico(idtopico):
                 ''', [idtopico])
     topico['subtopicos'] = cur.fetchall()
 
+    # Supertópicos ------------
+
     cur.execute('''
                 SELECT st.topico_id AS st_id, t.titulo AS st_titulo
                 FROM aprenda.topico t, aprenda.subtopico st
@@ -86,36 +93,34 @@ def get_topico(idtopico):
                 ''', [idtopico])
     topico['supertopicos'] = cur.fetchall()
 
+    # Livros ------------------
+
     cur.execute('''
-                SELECT t.titulo AS topico, l.isbn, u.nome_usuario AS criador
-                FROM aprenda.topico t, aprenda.livro l, aprenda.livrotopico lt, aprenda.usuario u
-                WHERE lt.livro_id = l.id AND lt.topico_id = t.id AND lt.criador_id = u.id AND t.id = %s
+                SELECT l.id, l.isbn, l.titulo, l.subtitulo
+                FROM aprenda.topico t, aprenda.livro l, aprenda.livrotopico lt
+                WHERE lt.livro_id = l.id AND lt.topico_id = t.id
+                AND t.id = %s;
                 ''', [idtopico])
     topico['livros'] = cur.fetchall()
+
     for livro in topico['livros']:
-        url = "https://www.googleapis.com/books/v1/volumes?q=isbn:%s" % livro['isbn']
-        try:
-            response = urllib2.urlopen(url);
-            try:
-                data = json.loads(response.read())
-                if(int(data['totalItems']) != 0):
-                    if 'title' in data['items'][0]['volumeInfo']:
-                        livro['titulo'] = data['items'][0]['volumeInfo']['title']
-                    if 'subtitle' in data['items'][0]['volumeInfo']:
-                        livro['subtitulo'] = data['items'][0]['volumeInfo']['subtitle']
-                    if 'authors' in data['items'][0]['volumeInfo']:
-                        livro['autores'] = data['items'][0]['volumeInfo']['authors']
+        cur.execute('''
+                    SELECT e.nome
+                    FROM aprenda.livro l, aprenda.escritor e,
+                    aprenda.escritorlivro el
+                    WHERE el.livro_id = l.id AND el.escritor_id = e.id
+                    AND l.id = %s;
+                    ''', [livro['id']])
+        escritores = cur.fetchall()
+        livro['escritores'] = ""
+        for escritor in escritores:
+            livro['escritores'] += escritor['nome'] + ", "
 
-                        livro['autorstring'] = ", ".join(livro['autores'])
+        livro['escritores'] = livro['escritores'][:-2]
 
-                    if 'description' in data['items'][0]['volumeInfo']:
-                        livro['desc'] = data['items'][0]['volumeInfo']['description']
-                else:
-                    print "Não há livro com o ISBN informado"
-            except ValueError:
-                livro['titulo'] = livro['isbn']
-        except urllib2.URLError:
-            livro['titulo'] = livro['isbn']
+    print topico['livros']
+
+    # Links -------------------
 
     cur.execute('''
                 SELECT l.titulo, l.url, u.nome_usuario AS criador
@@ -127,38 +132,3 @@ def get_topico(idtopico):
     cur.close()
     conn.close()
     return topico
-
-def get_livros_topico(idtopico):
-    conn = connect()
-    cur = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
-    cur.execute('''
-                SELECT t.titulo AS topico, l.isbn, u.nome_usuario AS criador
-                FROM aprenda.topico t, aprenda.livro l, aprenda.livrotopico lt,
-                aprenda.usuario u
-                WHERE lt.livro_id = l.id AND lt.topico_id = t.id 
-                AND lt.criador_id = u.id AND t.id = %s;
-                ''', [idtopico])
-    livros = cur.fetchall()
-
-    for livro in livros:
-        url = "https://www.googleapis.com/books/v1/volumes?q=isbn:%s" % livro['isbn']
-        try:
-            response = urllib2.urlopen(url);
-            data = json.loads(response.read())
-            if(int(data['totalItems']) != 0):
-                if 'title' in data['items'][0]['volumeInfo']:
-                    livro['titulo'] = data['items'][0]['volumeInfo']['title']
-                if 'subtitle' in data['items'][0]['volumeInfo']:
-                    livro['subtitulo'] = data['items'][0]['volumeInfo']['subtitle']
-                if 'authors' in data['items'][0]['volumeInfo']:
-                    livro['autores'] = data['items'][0]['volumeInfo']['authors']
-                if 'description' in data['items'][0]['volumeInfo']:
-                    livro['desc'] = data['items'][0]['volumeInfo']['description']
-            else:
-                print "Não há livro com o ISBN informado"
-        except urllib2.URLError as e:
-            print "Erro"
-
-    cur.close()
-    conn.close()
-    return livros

@@ -41,7 +41,8 @@ def procurar_usuario():
 
 def get_livro_info(isbn):
     url = "https://www.googleapis.com/books/v1/volumes?q=isbn:%s" \
-    % livro['isbn']
+    % isbn
+    livro = {}
     try:
         response = urllib2.urlopen(url);
         try:
@@ -61,6 +62,7 @@ def get_livro_info(isbn):
             livro['titulo'] = livro['isbn']
     except urllib2.URLError:
         livro['titulo'] = livro['isbn']
+    return livro
 
 # Pages -------------------
 
@@ -72,7 +74,6 @@ def index():
 @app.route('/t/<int:topicoid>')
 def topico(topicoid):
     dbtopico = db.get_topico(topicoid)
-    dblivros = db.get_livros_topico(topicoid)
     return render_template('topico.html', topico = dbtopico)
 
 @app.route('/livro/<int:isbn>')

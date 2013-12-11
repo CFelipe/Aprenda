@@ -39,7 +39,9 @@
                     <ul>
                         {% for subtopico in topico['subtopicos'] %}
                             <li>
-                                <a href="{{ url_for('topico', topicoid=subtopico['st_id']) }}">{{ subtopico['st_titulo'] }}</a>
+                                <a href="{{ url_for('topico', topicoid=subtopico['st_id']) }}">
+                                    {{ subtopico['st_titulo'] }}
+                                </a>
                             </li>
                         {% else %}
                             <li>Nenhum</li>
@@ -65,7 +67,9 @@
                     <ul>
                         {% for supertopico in topico['supertopicos'] %}
                             <li>
-                                <a href="{{ url_for('topico', topicoid=supertopico['st_id']) }}">{{ supertopico['st_titulo'] }}</a>
+                                <a href="{{ url_for('topico', topicoid=supertopico['st_id']) }}">
+                                    {{ supertopico['st_titulo'] }}
+                                </a>
                             </li>
                         {% else %}
                             <li>Nenhum</li>
@@ -93,8 +97,15 @@
                     <ul>
                         {% for livro in topico['livros'] %}
                             <li>
-                                <a href="#">{{ livro['titulo'] }}</a>
-                                <span class="subtext">{{ livro['autorstring'] }}</span>
+                                <a href="#">
+                                    {{ livro['titulo'] }}
+                                    {% if subtitulo in livro %}
+                                        - {{ livro['subtitulo'] }}
+                                    {% endif %}
+                                </a>
+                                <span class="subtext">
+                                    {{ livro['escritores'] }}
+                                </span>
                             </li>
                         {% else %}
                             <li>Nenhum</li>
@@ -121,7 +132,9 @@
                     <ul>
                             {% for link in topico['links'] %}
                             <li>
-                                <a href="{{ link['url'] }}">{{ link['titulo'] }}</a>
+                                <a href="{{ link['url'] }}">
+                                    {{ link['titulo'] }}
+                                </a>
                             </li>
                         {% else %}
                             <li>Nenhum</li>
@@ -150,7 +163,7 @@
                             <li>
                                 Depois
                             </li>
-                    </ul>
+                        </ul>
                     </div>
                 </div>
             </div>

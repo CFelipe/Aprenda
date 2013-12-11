@@ -15,7 +15,8 @@ This assumes you have Python 2.7.x and pip installed.
 ### Mac OS X
 Tested on Mac OS X 10.9 using [homebrew](http://brew.sh/)
 
-Clone the repository and setup the database stuff
+Clone the repository and set up the database stuff. Be sure to configure your
+PostgreSQL if you've just installed it
 
     $ git clone https://github.com/CFelipe/Aprenda.git
     $ brew install postgresql

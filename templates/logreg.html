@@ -78,6 +78,8 @@
                     <label class="radio-inline">
                         <input name="sexoradio" type="radio" value="na">
                         N/A
+                        <input type="hidden" name="sexoradio"
+                        value={{request.form['sexoradio']}} />
                     </label>
                 </div>
                 <button type="submit" name="btn" value="reg" class="btn btn-default">Registrar</button>

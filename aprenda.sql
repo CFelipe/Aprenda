@@ -17,6 +17,9 @@ CREATE TABLE aprenda.usuario (
 DROP INDEX IF EXISTS nomeusuario_min;
 CREATE INDEX nomeusuario_min ON aprenda.usuario(lower(nome_usuario));
 
+DROP INDEX IF EXISTS email_min;
+CREATE INDEX email_min ON aprenda.usuario(lower(email));
+
 DROP TABLE IF EXISTS aprenda.topico CASCADE;
 CREATE TABLE aprenda.topico (
     id SERIAL PRIMARY KEY,
@@ -144,7 +147,7 @@ INSERT INTO aprenda.subtopico (topico_id, subtopico_id) VALUES
     (5, 6);
 ---
 INSERT INTO aprenda.link (titulo, url) VALUES
-    ('Teoria dos grafos (Wikipedia)',
+    ('Teoria dos grafos',
         'https://pt.wikipedia.org/wiki/Teoria_dos_grafos'),
     ('Primers',
         'http://jeremykun.com/primers/'),

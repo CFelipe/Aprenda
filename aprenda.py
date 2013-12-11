@@ -94,7 +94,8 @@ def logreg():
         if request.form['btn'] == 'reg':
             nomeusuario = request.form['nomeusuario']
             email = request.form['email']
-            sexo = request.form['sexoradio']
+            sexoradio = request.form['sexoradio']
+            print "sexoradio: " + sexoradio
 
             valido = db.validar_usuario(request.form['nomeusuario'],
                     request.form['email'])
@@ -102,6 +103,8 @@ def logreg():
                 erros.append(u"Nome de usuário inválido")
             if not valido['email'] or not entre(3, 1024, email):
                 erros.append(u"Email inválido")
+            if(sexoradio == '/'):
+                erros.append(u"Sexo não informado")
         elif request.form['btn'] == 'log':
             nomeusuario = request.form['nomeusuario']
             senha = request.form['password']

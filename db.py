@@ -53,11 +53,54 @@ def validar_usuario(nomeusuario, emailusuario):
 def get_topicos():
     conn = connect()
     cur = conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
+
     cur.execute('''
                 SELECT *
                 FROM aprenda.topico
                 ''')
     topicos = cur.fetchall()
+
+    for topico in topicos:
+        # n_subtopicos -----------------
+        cur.execute('''
+                    SELECT count(subtopico_id)
+                    FROM aprenda.subtopico
+                    WHERE topico_id = %s
+                    ''', [topico['id']])
+        topico['n_subtopicos'] = cur.fetchone()['count']
+
+        # n_supertopicos -----------------
+        cur.execute('''
+                    SELECT count(topico_id)
+                    FROM aprenda.subtopico
+                    WHERE subtopico_id = %s
+                    ''', [topico['id']])
+        topico['n_supertopicos'] = cur.fetchone()['count']
+
+        # n_links ------------------------
+        cur.execute('''
+                    SELECT count(link_id)
+                    FROM aprenda.linktopico
+                    WHERE topico_id = %s
+                    ''', [topico['id']])
+        topico['n_links'] = cur.fetchone()['count']
+
+        # n_videos -----------------------
+        cur.execute('''
+                    SELECT count(video_id)
+                    FROM aprenda.videotopico
+                    WHERE topico_id = %s
+                    ''', [topico['id']])
+        topico['n_videos'] = cur.fetchone()['count']
+
+        # n_livros -----------------------
+        cur.execute('''
+                    SELECT count(livro_id)
+                    FROM aprenda.livrotopico
+                    WHERE topico_id = %s
+                    ''', [topico['id']])
+        topico['n_livros'] = cur.fetchone()['count']
+
     cur.close()
     conn.close()
     return topicos

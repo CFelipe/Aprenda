@@ -8,20 +8,45 @@
         <div class="griditem col-md-12">
             <div class="tableheader">
                 Lista
-                <span class="tablefloatright">
-                    <a class="addbtn" href="#" rel="tooltip" data-placement="left" title="Adicionar">+</a>
-                </span>
+                {% if g.usuario %}
+                    <span class="tablefloatright">
+                        <a class="addbtn" href="#" rel="tooltip"
+                            data-placement="top" title="Adicionar">
+                            <i class="fa fa-plus-circle"></i>
+                        </a>
+                    </span>
+                {% endif %}
             </div>
             <div class="tablecontent">
                 <table class="table table-condensed tablelist">
                     <thead>
                         <tr>
                             <th>Tópico</th>
-                            <th style="width:10%">Subtópicos</th>
-                            <th style="width:10%">Supertópicos</th>
-                            <th style="width:10%">Links</th>
-                            <th style="width:10%">Vídeos</th>
-                            <th style="width:10%">Livros</th>
+                            <th style="width:10%">
+                                <i class="fa fa-arrow-down"
+                                   rel="tooltip" data-placement="top"
+                                   title="Subtópicos"></i>
+                            </th>
+                            <th style="width:10%">
+                                <i class="fa fa-arrow-up"
+                                   rel="tooltip" data-placement="top"
+                                   title="Supertópicos"></i>
+                            </th>
+                            <th style="width:10%">
+                                <i class="fa fa-link"
+                                   rel="tooltip" data-placement="top"
+                                   title="Links"></i>
+                            </th>
+                            <th style="width:10%">
+                                <i class="fa fa-video-camera"
+                                   rel="tooltip" data-placement="top"
+                                   title="Vídeos"></i>
+                            </th>
+                            <th style="width:10%">
+                                <i class="fa fa-book"
+                                   rel="tooltip" data-placement="top"
+                                   title="Livros"></i>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,11 +57,11 @@
                                         {{ topico['titulo'] }}
                                     </a>
                                 </td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
+                                <td>{{ topico['n_subtopicos'] }}</td>
+                                <td>{{ topico['n_supertopicos'] }}</td>
+                                <td>{{ topico['n_links'] }}</td>
+                                <td>{{ topico['n_videos'] }}</td>
+                                <td>{{ topico['n_livros'] }}</td>
                             </tr>
                         {% else %}
                             <li>Nenhum</li>

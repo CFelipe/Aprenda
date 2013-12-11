@@ -61,6 +61,7 @@ def get_topicos():
     topicos = cur.fetchall()
 
     for topico in topicos:
+
         # n_subtopicos -----------------
         cur.execute('''
                     SELECT count(subtopico_id)

@@ -4,6 +4,7 @@
 from flask import Flask, render_template, request, session, redirect, \
                   url_for, g, flash, jsonify
 from datetime import datetime
+import re
 import db
 import hashlib
 import urllib2
@@ -94,17 +95,38 @@ def logreg():
         if request.form['btn'] == 'reg':
             nomeusuario = request.form['nomeusuario']
             email = request.form['email']
+            nasc = request.form['nasc']
             sexoradio = request.form['sexoradio']
             print "sexoradio: " + sexoradio
 
             valido = db.validar_usuario(request.form['nomeusuario'],
                     request.form['email'])
-            if not valido['nomeusuario'] or not entre(2, 20, nomeusuario):
+
+            # Validando nome de usuário ----
+            if not valido['nomeusuario'] or \
+               not entre(2, 20, nomeusuario):
                 erros.append(u"Nome de usuário inválido")
+            elif not re.match("^[a-zA-Z0-9_]+$", nomeusuario):
+                erros.append(u"Nome de usuário inválido (use apenas \
+                        caracteres, números e underlines)")
+
+            # Validando email --------------
             if not valido['email'] or not entre(3, 1024, email):
                 erros.append(u"Email inválido")
+
+            # Validando data ---------------
+            try:
+                datetime.strptime(nasc, '%d/%m/%Y')
+            except ValueError:
+                erros.append(u"Data inválida (use DD/MM/AAAA)")
+
+            # Validando sexo ---------------
             if(sexoradio == '/'):
                 erros.append(u"Sexo não informado")
+
+            if not erros:
+                db.registrar_usuario()
+
         elif request.form['btn'] == 'log':
             nomeusuario = request.form['nomeusuario']
             senha = request.form['password']

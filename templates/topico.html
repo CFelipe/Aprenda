@@ -27,7 +27,8 @@
                 Subtópicos
                 {% if g.usuario %}
                     <span class="tablefloatright">
-                        <a class="addbtn" href="#" rel="tooltip"
+                        <a class="addbtn" href="{{ url_for('addsubtopicos',
+                            topicoid=topico['id']) }}" rel="tooltip"
                             data-placement="top" title="Adicionar">
                             <i class="fa fa-plus-circle"></i>
                         </a>
@@ -55,7 +56,8 @@
                 Supertópicos
                 {% if g.usuario %}
                     <span class="tablefloatright">
-                        <a class="addbtn" href="#" rel="tooltip"
+                        <a class="addbtn" href="{{ url_for('addsupertopicos',
+                            topicoid=topico['id']) }}" rel="tooltip"
                             data-placement="top" title="Adicionar">
                             <i class="fa fa-plus-circle"></i>
                         </a>
@@ -160,9 +162,15 @@
                 <div class="tablelist">
                     <div class="listitem">
                         <ul>
+                        {% for video in topico['videos'] %}
                             <li>
-                                Depois
+                                <a href="{{ video['url'] }}">
+                                    {{ video['titulo'] }}
+                                </a>
                             </li>
+                        {% else %}
+                            <li>Nenhum</li>
+                        {% endfor %}
                         </ul>
                     </div>
                 </div>

@@ -38,7 +38,7 @@ CREATE TABLE aprenda.subtopico (
 DROP TABLE IF EXISTS aprenda.link CASCADE;
 CREATE TABLE aprenda.link (
     id SERIAL PRIMARY KEY,
-    titulo VARCHAR(60) NOT NULL,
+    titulo TEXT NOT NULL,
     url TEXT NOT NULL
 );
 

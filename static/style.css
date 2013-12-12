@@ -60,7 +60,7 @@ textarea {
 
 .headernav li {
     position: relative;
-    float: right;
+    float: left;
     display: block;
     list-style-type: none;
 }

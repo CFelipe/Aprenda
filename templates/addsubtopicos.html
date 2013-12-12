@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block pagtitulo %}
+    Adicionar subtópicos ({{ otopico['titulo'] }})
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if erros %}
+    <div class="alert alert-warning">
+        <ul>
+        {% for erro in erros %}
+            <li>{{ erro }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="griditem col-md-12">
+        <div class="tableheader">
+            Formulário
+        </div>
+        <div class="tablecontent">
+            <form action="" method="post" id="addsubtopicosform" role="form">
+                <div class="form-group">
+                    <label for="subtopicos">
+                        Subtópicos
+                    </label>
+                    <select multiple class="form-control" name='subtopicos'
+                        size="{{ topicos|length }}">
+                        {% for topico in topicos %}
+                        <option value='{{ topico['id'] }}'>
+                            {{ topico['titulo'] }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <input type="hidden" name="topicoid"
+                    value={{ otopico['id'] }}>
+                </div>
+                <button type="submit" name="btn" value="addsubtopicos"
+                    class="btn btn-default">Adicionar subtópicos</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

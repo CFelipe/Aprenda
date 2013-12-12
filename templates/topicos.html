@@ -10,8 +10,9 @@
                 Lista
                 {% if g.usuario %}
                     <span class="tablefloatright">
-                        <a class="addbtn" href="#" rel="tooltip"
-                            data-placement="top" title="Adicionar">
+                        <a class="addbtn" href="{{ url_for('addtopico') }}"
+                            rel="tooltip" data-placement="top"
+                            title="Adicionar">
                             <i class="fa fa-plus-circle"></i>
                         </a>
                     </span>

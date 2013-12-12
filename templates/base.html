@@ -15,17 +15,17 @@
                 <header class="headertitle"><a href="{{ url_for('index') }}">Aprenda</a></header>
                 <nav class="headernav">
                     <ul>
+                        <li><a href="{{ url_for('index') }}">Tópicos</a></li>
                         {% if g.usuario %}
-                            <li><a href="{{ url_for('logout') }}">Logout</a></li>
                             <li><a href="#">
                                 <i class="fa fa-user"></i>
                                 {{ g.usuario['nome_usuario'] }}
                             </a></li>
+                            <li><a href="{{ url_for('logout') }}">Logout</a></li>
                         {% else %}
                             <li><a href="{{ url_for('logreg')
                                 }}">Login / Registro</a></li>
                         {% endif %}
-                        <li><a href="{{ url_for('index') }}">Tópicos</a></li>
                     </ul>
                 </nav>
             </div>

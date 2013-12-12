@@ -55,7 +55,7 @@
                     <input type="text" class="form-control" name="email"
                     data-toggle="popover"
                     data-placement="left"
-                    data-content="Este email já cadastrado">
+                    data-content="Este email já está cadastrado">
                 </div>
                 <div class="form-group">
                     <label for="password">Senha</label>
@@ -79,7 +79,7 @@
                         <input name="sexoradio" type="radio" value="na">
                         N/A
                         <input type="hidden" name="sexoradio"
-                        value={{request.form['sexoradio']}} />
+                        value={{request.form['sexoradio']}}>
                     </label>
                 </div>
                 <button type="submit" name="btn" value="reg" class="btn btn-default">Registrar</button>

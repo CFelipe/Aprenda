@@ -162,17 +162,76 @@ def get_topico(idtopico):
 
         livro['escritores'] = livro['escritores'][:-2]
 
-    print topico['livros']
-
     # Links -------------------
 
     cur.execute('''
                 SELECT l.titulo, l.url, u.nome_usuario AS criador
-                FROM aprenda.topico t, aprenda.link l, aprenda.linktopico lt, aprenda.usuario u
-                WHERE lt.link_id = l.id AND lt.topico_id = t.id AND lt.criador_id = u.id AND t.id = %s
+                FROM aprenda.topico t, aprenda.link l, aprenda.linktopico lt,
+                aprenda.usuario u
+                WHERE lt.link_id = l.id AND lt.topico_id = t.id
+                AND lt.criador_id = u.id AND t.id = %s
                 ''', [idtopico])
     topico['links'] = cur.fetchall()
+
+    # Vídeos ------------------
+
+    cur.execute('''
+                SELECT v.titulo, v.url
+                FROM aprenda.topico t, aprenda.video v, aprenda.videotopico vt
+                WHERE vt.video_id = v.id AND vt.topico_id = t.id AND t.id = %s
+                ''', [idtopico])
+    topico['videos'] = cur.fetchall()
 
     cur.close()
     conn.close()
     return topico
+
+def registrar_usuario(nomeusuario, email, senha, datanasc, sexo):
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute('''
+                INSERT INTO aprenda.usuario
+                (nome_usuario, email, senha, dt_nascimento, sexo)
+                VALUES (%s, %s, %s, %s, %s)
+                ''', [nomeusuario, email, senha, datanasc, sexo])
+    conn.commit()
+    cur.close()
+    conn.close()
+
+def adicionar_topico(titulo):
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute('''
+                INSERT INTO aprenda.topico
+                (titulo)
+                VALUES (%s)
+                ''', [titulo])
+    conn.commit()
+    cur.close()
+    conn.close()
+
+def adicionar_subtopicos(topicoid, subtopicos):
+    conn = connect()
+    cur = conn.cursor()
+    for subtopico in subtopicos:
+        cur.execute('''
+                    INSERT INTO aprenda.subtopico
+                    (topico_id, subtopico_id)
+                    VALUES (%s, %s)
+                    ''', [topicoid, subtopico])
+        conn.commit()
+    cur.close()
+    conn.close()
+
+def adicionar_supertopicos(topicoid, supertopicos):
+    conn = connect()
+    cur = conn.cursor()
+    for supertopico in supertopicos:
+        cur.execute('''
+                    INSERT INTO aprenda.subtopico
+                    (topico_id, subtopico_id)
+                    VALUES (%s, %s)
+                    ''', [supertopico, topicoid])
+        conn.commit()
+    cur.close()
+    conn.close()

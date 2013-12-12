@@ -77,13 +77,70 @@ def topico(topicoid):
     dbtopico = db.get_topico(topicoid)
     return render_template('topico.html', topico = dbtopico)
 
-@app.route('/livro/<int:isbn>')
-def livro(isbn):
-    pass
 
-@app.route('/link/<linkid>')
-def link(linkid):
-    pass
+@app.route('/adicionartopico', methods=['GET', 'POST'])
+def addtopico():
+    if not g.usuario:
+        return redirect(url_for('logreg'))
+    erros = []
+    addinfo = {}
+    if request.method == 'POST':
+        if request.form['btn'] == 'addtopico':
+            titulo = request.form['titulo']
+            if titulo == None:
+                erros.append(u"Titulo inválido")
+            elif not re.match("^[a-zA-Z0-9 ]+$", titulo):
+                erros.append(u"Título inválido (use apenas caracteres, espaços \
+                        e números)")
+                addinfo['titulo'] = titulo
+
+            if not erros:
+                db.adicionar_topico(titulo)
+                return redirect(url_for('index'))
+
+    return render_template('addtopico.html', erros=erros, addinfo=addinfo)
+
+@app.route('/adicionarsubtopicos/<int:topicoid>', methods=['GET', 'POST'])
+def addsubtopicos(topicoid):
+    if not g.usuario:
+        return redirect(url_for('logreg'))
+    erros = []
+    dbtopico = db.get_topico(topicoid)
+    dbtopicos = db.get_topicos()
+    if request.method == 'POST':
+        if request.form['btn'] == 'addsubtopicos':
+            topicoid = request.form['topicoid']
+            subtopicos = request.form.getlist('subtopicos')
+
+            if not subtopicos:
+                erros.append(u"Selecione pelo menos um subtópico")
+            if not erros:
+                db.adicionar_subtopicos(topicoid, subtopicos)
+                return redirect(url_for('index'))
+
+    return render_template('addsubtopicos.html', erros=erros,
+            otopico = dbtopico, topicos = dbtopicos)
+
+@app.route('/adicionarsupertopicos/<int:topicoid>', methods=['GET', 'POST'])
+def addsupertopicos(topicoid):
+    if not g.usuario:
+        return redirect(url_for('logreg'))
+    erros = []
+    dbtopico = db.get_topico(topicoid)
+    dbtopicos = db.get_topicos()
+    if request.method == 'POST':
+        if request.form['btn'] == 'addsupertopicos':
+            topicoid = request.form['topicoid']
+            supertopicos = request.form.getlist('supertopicos')
+
+            if not supertopicos:
+                erros.append(u"Selecione pelo menos um supertópico")
+            if not erros:
+                db.adicionar_supertopicos(topicoid, supertopicos)
+                return redirect(url_for('index'))
+
+    return render_template('addsupertopicos.html', erros=erros,
+            otopico = dbtopico, topicos = dbtopicos)
 
 @app.route('/logreg', methods=['GET', 'POST'])
 def logreg():
@@ -95,9 +152,9 @@ def logreg():
         if request.form['btn'] == 'reg':
             nomeusuario = request.form['nomeusuario']
             email = request.form['email']
+            senha = request.form['password']
             nasc = request.form['nasc']
-            sexoradio = request.form['sexoradio']
-            print "sexoradio: " + sexoradio
+            sexo = request.form['sexoradio']
 
             valido = db.validar_usuario(request.form['nomeusuario'],
                     request.form['email'])
@@ -114,18 +171,32 @@ def logreg():
             if not valido['email'] or not entre(3, 1024, email):
                 erros.append(u"Email inválido")
 
+            # Validando senha --------------
+            if len(senha) <= 4:
+                erros.append(u"Senha inválida (use pelo menos 4 caracteres")
+            else:
+                m = hashlib.md5()
+                m.update(senha)
+                senha = m.hexdigest()
+
             # Validando data ---------------
             try:
-                datetime.strptime(nasc, '%d/%m/%Y')
+                nasc = datetime.strptime(nasc, '%d/%m/%Y')
             except ValueError:
                 erros.append(u"Data inválida (use DD/MM/AAAA)")
 
+            nasc = nasc.strftime('%Y-%m-%d')
+
             # Validando sexo ---------------
-            if(sexoradio == '/'):
+            if(sexo == '/'):
                 erros.append(u"Sexo não informado")
+            else:
+                if(sexo == 'masc'):     sexo = 'M'
+                elif(sexo == 'fem'):    sexo = 'F'
+                elif(sexo == 'na'):     sexo = 'N'
 
             if not erros:
-                db.registrar_usuario()
+                db.registrar_usuario(nomeusuario, email, senha, nasc, sexo)
 
         elif request.form['btn'] == 'log':
             nomeusuario = request.form['nomeusuario']

@@ -122,7 +122,8 @@
                 Links
                 {% if g.usuario %}
                     <span class="tablefloatright">
-                        <a class="addbtn" href="#" rel="tooltip"
+                        <a class="addbtn" href="{{ url_for('addlink',
+                            topicoid=topico['id']) }}" rel="tooltip"
                             data-placement="top" title="Adicionar">
                             <i class="fa fa-plus-circle"></i>
                         </a>

@@ -100,6 +100,35 @@ def addtopico():
 
     return render_template('addtopico.html', erros=erros, addinfo=addinfo)
 
+@app.route('/adicionarlink/<int:topicoid>', methods=['GET', 'POST'])
+def addlink(topicoid):
+    if not g.usuario:
+        return redirect(url_for('logreg'))
+    erros = []
+    addinfo = {}
+    dbtopico = db.get_topico(topicoid)
+    if request.method == 'POST':
+        if request.form['btn'] == 'addlink':
+            titulo = request.form['titulo']
+            link = request.form['link']
+
+            if not titulo:
+                erros.append(u"Titulo inválido")
+            elif not re.match("^[a-zA-Z0-9 ]+$", titulo):
+                erros.append(u"Título inválido (use apenas caracteres, espaços \
+                        e números)")
+                addinfo['titulo'] = titulo
+
+            if not link:
+                erros.append(u"Link inválido")
+
+            if not erros:
+                db.adicionar_link(topicoid, titulo, link, g.usuario)
+                return redirect(url_for('index'))
+
+    return render_template('addlink.html', erros=erros, addinfo=addinfo,
+            topico=dbtopico)
+
 @app.route('/adicionarsubtopicos/<int:topicoid>', methods=['GET', 'POST'])
 def addsubtopicos(topicoid):
     if not g.usuario:
@@ -172,7 +201,7 @@ def logreg():
                 erros.append(u"Email inválido")
 
             # Validando senha --------------
-            if len(senha) <= 4:
+            if len(senha) < 4:
                 erros.append(u"Senha inválida (use pelo menos 4 caracteres")
             else:
                 m = hashlib.md5()
@@ -197,6 +226,8 @@ def logreg():
 
             if not erros:
                 db.registrar_usuario(nomeusuario, email, senha, nasc, sexo)
+                session['nomeusuario'] = nomeusuario
+                return redirect(url_for('index'))
 
         elif request.form['btn'] == 'log':
             nomeusuario = request.form['nomeusuario']

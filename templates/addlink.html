@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block pagtitulo %}
+    Adicionar link ({{ topico['titulo'] }})
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if erros %}
+    <div class="alert alert-warning">
+        <ul>
+        {% for erro in erros %}
+            <li>{{ erro }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="griditem col-md-12">
+        <div class="tableheader">
+            Formulário
+        </div>
+        <div class="tablecontent">
+            <form action="" method="post" id="addtopicoform" role="form">
+                <div class="form-group">
+                    <label for="titulo">Título</label>
+                    <input type="text" class="form-control" name="titulo"
+                    value={{ addinfo['titulo'] }}>
+                </div>
+                <div class="form-group">
+                    <label for="link">Link</label>
+                    <input type="text" class="form-control" name="link">
+                </div>
+                <input type="hidden" name="topicoid"
+                value={{ topico['id'] }}>
+                <button type="submit" name="btn" value="addlink"
+                    class="btn btn-default">Adicionar tópico</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

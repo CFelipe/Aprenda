@@ -235,3 +235,27 @@ def adicionar_supertopicos(topicoid, supertopicos):
         conn.commit()
     cur.close()
     conn.close()
+
+def adicionar_link(topicoid, titulo, link, criador):
+    conn = connect()
+    cur = conn.cursor()
+    cur.execute('''
+                INSERT INTO aprenda.link
+                (titulo, url)
+                VALUES (%s, %s)
+                ''', [titulo, link])
+    cur.execute('''
+                SELECT id
+                FROM aprenda.link
+                ORDER BY id DESC
+                ''', [titulo, topicoid])
+    link = cur.fetchone()
+
+    cur.execute('''
+                INSERT INTO aprenda.linktopico
+                (link_id, topico_id, criador_id)
+                VALUES (%s, %s, %s)
+                ''', [link, topicoid, criador['id']])
+    conn.commit()
+    cur.close()
+    conn.close()

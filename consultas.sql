@@ -15,7 +15,8 @@ DROP VIEW IF EXISTS links;
 CREATE VIEW links AS
 SELECT t.titulo AS topico, l.titulo AS link_titulo, l.url, u.nome_usuario AS criador
 FROM aprenda.topico t, aprenda.link l, aprenda.linktopico lt, aprenda.usuario u
-WHERE lt.link_id = l.id AND lt.topico_id = t.id AND lt.criador_id = u.id;
+WHERE lt.link_id = l.id AND lt.topico_id = t.id AND lt.criador_id = u.id
+ORDER BY t.titulo;
 
 -- Relação de tópicos e seus vídeos
 DROP VIEW IF EXISTS videos;
@@ -30,3 +31,14 @@ CREATE VIEW livros AS
 SELECT t.titulo AS t_id, l.isbn, u.nome_usuario AS criador
 FROM aprenda.topico t, aprenda.livro l, aprenda.livrotopico lt, aprenda.usuario u
 WHERE lt.livro_id = l.id AND lt.topico_id = t.id AND lt.criador_id = u.id;
+
+-- Relação de links em mais de um tópico
+CREATE VIEW links_topicos AS
+SELECT l.titulo AS link, l.url AS url, t.titulo AS topico, u.nome_usuario AS criador
+FROM aprenda.link l, aprenda.linktopico lt, aprenda.topico t, aprenda.usuario u
+WHERE lt.link_id = l.id AND lt.topico_id = t.id AND lt.criador_id = u.id AND
+lt.link_id IN
+    (SELECT link_id
+    FROM aprenda.linktopico
+    GROUP BY link_id
+    HAVING count(topico_id) > 1);
